@@ -1,10 +1,4 @@
-# Smart Coloring
 ## Smart Coloring
-### Smart Coloring
-
-#### Smart Coloring
-##### Smart Coloring
-###### Smart Coloring
 
 This program will help you create cool mathematics coloring to turn on your brain and have a good time wiht your children.
 
