@@ -1,5 +1,4 @@
-﻿using AxPDFXEdit;
-using PDFXEdit;
+﻿using PDFXEdit;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,7 +12,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Threading;
 using test;
-
+using System.Reflection;
 
 namespace test
 {
@@ -21,11 +20,13 @@ namespace test
     {
         IIXC_Inst inst;
         public Workspace workspace_ob = new Workspace();
-        
-        public delegate void CloseDelagate(); 
+
+        public delegate void CloseDelagate();
         public Form1()
         {
             InitializeComponent();
+            typeof(Panel).InvokeMember("DoubleBuffered", BindingFlags.SetProperty  | BindingFlags.Instance | BindingFlags.NonPublic, null,  panel2, new object[] { true });
+
             for (int i = 0; i < workspace_ob.field_ex.width; i++)
             {
                 for (int j = 0; j < workspace_ob.field_ex.heigth; j++)
@@ -53,9 +54,9 @@ namespace test
             for (int i = 0; i < workspace_ob.keys.Count; i++)
             {
                 dataGridView1.Rows.Add(workspace_ob.keys[i].str, GetColorName(workspace_ob.keys[i].clr));
-                if (GetColorName(workspace_ob.keys[i].clr) == "Black" 
-                    || GetColorName(workspace_ob.keys[i].clr) == "Brown" 
-                    || GetColorName(workspace_ob.keys[i].clr) == "Navy" 
+                if (GetColorName(workspace_ob.keys[i].clr) == "Black"
+                    || GetColorName(workspace_ob.keys[i].clr) == "Brown"
+                    || GetColorName(workspace_ob.keys[i].clr) == "Navy"
                     || GetColorName(workspace_ob.keys[i].clr) == "DarkGreen"
                     || GetColorName(workspace_ob.keys[i].clr) == "Indigo")
                     dataGridView1.Rows[i].Cells[1].Style.ForeColor = Color.WhiteSmoke;
@@ -91,7 +92,7 @@ namespace test
             if (workspace_ob.field_ex.width <= 20 && current_heigth > current_width)
             {
                 current_width = workspace_ob.field_ex.width;
-                current_heigth = current_width; 
+                current_heigth = current_width;
             }
             for (int i = 0; i < current_width; i++)
             {
@@ -136,10 +137,10 @@ namespace test
                     //}
                     //int n = 0;
                     //for(int m = 0; m < workspace_ob.keys.Count; m++){
-                    //    if (workspace_ob.keys[m].clr == workspace_ob.field_ex.clr_fild[i_curr][j_curr]) 
-                    //    { 
-                    //        n = m; 
-                    //        break; 
+                    //    if (workspace_ob.keys[m].clr == workspace_ob.field_ex.clr_fild[i_curr][j_curr])
+                    //    {
+                    //        n = m;
+                    //        break;
                     //    }
                     //}
                     //try
@@ -148,11 +149,11 @@ namespace test
                     //        workspace_ob.field_ex.str_fild[i_curr][j_curr] = "";
                     //}
                     //catch { }
-                    
+
                     //e.Graphics.DrawString(workspace_ob.field_ex.str_fild[i_curr][j_curr], fn, br, temp_rc, sf);
                 }
             }
-            if(workspace_ob.qnt > 10)textBox_info.Text = "";
+            if (workspace_ob.qnt > 10) textBox_info.Text = "";
             workspace_ob.clean_colors = false;
             workspace_ob.qnt++;
         }
@@ -170,7 +171,7 @@ namespace test
                 {
                     textBox_info.Text = "Please, add some keys.";
                     return;
-                    
+
                 }
                 int x_index = (e.X - 15) / workspace_ob.field_ex.size_rect;
                 int y_index = (e.Y - 27) / workspace_ob.field_ex.size_rect;
@@ -203,8 +204,8 @@ namespace test
         {
             if (workspace_ob.keys.Count != 0) workspace_ob.active_rc_color = workspace_ob.keys[dataGridView1.CurrentRow.Index].clr;
         }
-        
-        
+
+
         private void Form1_MouseMove(object sender, MouseEventArgs e)
         {
             if (workspace_ob.keys.Count == 0)
@@ -264,17 +265,17 @@ namespace test
                     if (workspace_ob.field_ex.clr_fild[i][j] == Color.Transparent) { continue; }
                     for (int z = 0; z < workspace_ob.keys.Count; z++)
                     {
-                        if (workspace_ob.keys[z].clr == workspace_ob.field_ex.clr_fild[i][j]) 
-                        { 
+                        if (workspace_ob.keys[z].clr == workspace_ob.field_ex.clr_fild[i][j])
+                        {
                             input = workspace_ob.keys[z].str;
                             continue;
                         }
                     }
                     if (input == "") { continue; }
-                    
+
                     if (workspace_ob.op.game_mod == Workspace.options.g_mod.BASIC_EVEN_ODD)
                         workspace_ob.field_ex.str_fild[i][j] = MathTemplate.AdvancedMath_NumbAndOps_Even_Odd(input);
-                    else if (workspace_ob.op.game_mod == Workspace.options.g_mod.BASIC_PRIM_COMP) 
+                    else if (workspace_ob.op.game_mod == Workspace.options.g_mod.BASIC_PRIM_COMP)
                         workspace_ob.field_ex.str_fild[i][j] = MathTemplate.AdvancedMath_NumbAndOps_PrimeOrComposite(input);
                     else if(workspace_ob.op.game_mod == Workspace.options.g_mod.BASIC_MYST)
                         workspace_ob.field_ex.str_fild[i][j] = MathTemplate.AdvancedMath_NumbAndOps_NumbPatterns(input);
@@ -285,7 +286,7 @@ namespace test
                             workspace_ob.field_ex.str_fild[i][j] = MathTemplate.MathFact_Basic(input, workspace_ob.sign);
                         if (workspace_ob.op.active_complexity == Workspace.options.complexity.JUNIOR)
                             workspace_ob.field_ex.str_fild[i][j] = MathTemplate.MathFact_Jr(input, workspace_ob.sign);
-                        if (workspace_ob.op.active_complexity == Workspace.options.complexity.ADVANCED_COMA || workspace_ob.op.active_complexity == Workspace.options.complexity.ADVANCED_HYPHEN)                  
+                        if (workspace_ob.op.active_complexity == Workspace.options.complexity.ADVANCED_COMA || workspace_ob.op.active_complexity == Workspace.options.complexity.ADVANCED_HYPHEN)
                             workspace_ob.field_ex.str_fild[i][j] = MathTemplate.MathFact_Advanced(input, workspace_ob.sign);
                     }
                     else if (workspace_ob.op.game_mod == Workspace.options.g_mod.ALGEBRA_MIDD_REGROPING)
@@ -351,7 +352,7 @@ namespace test
 
         private void button_add_color_Click(object sender, EventArgs e)
         {
-            
+
             if (workspace_ob.keys.Count >= 10)
             {
                 textBox_info.Text = "You can`t add more than 10 keys.";
@@ -392,7 +393,7 @@ namespace test
                 optionsToolStripMenuItem1.Enabled = true;
                 button_options.Enabled = true;
             }
-           
+
             UpdateDataGridView1();
             dataGridView1.CurrentCell = dataGridView1.Rows[dataGridView1.Rows.Count - 1].Cells[1];
             if (workspace_ob.keys.Count != 0) workspace_ob.active_rc_color = workspace_ob.keys[dataGridView1.CurrentRow.Index].clr;
@@ -401,7 +402,7 @@ namespace test
         private void button_delete_color_Click(object sender, EventArgs e)
         {
             workspace_ob.clr_name.Clear();
-            
+
             if (workspace_ob.keys.Count > 0)
             {
                 for (int i = 0; i < workspace_ob.field_ex.width; i++)
@@ -415,7 +416,7 @@ namespace test
                         }
                     }
                 }
-                workspace_ob.keys.RemoveAt(dataGridView1.CurrentRow.Index);              
+                workspace_ob.keys.RemoveAt(dataGridView1.CurrentRow.Index);
                 dataGridView1.Rows.RemoveAt(dataGridView1.CurrentRow.Index);
             }
             if (workspace_ob.keys.Count < 2)
@@ -429,7 +430,7 @@ namespace test
                 optionsToolStripMenuItem1.Enabled = false;
                 button_options.Enabled = false;
             }
-            
+
         }
 
         private void button_generate_num_Click(object sender, EventArgs e)
@@ -507,7 +508,7 @@ namespace test
 
         }
 
-        
+
 
         public Image ResizeOrigImg(Image source, int width, int height)
         {
@@ -551,18 +552,18 @@ namespace test
             double delta = 0;
             double min_delta = 1000;
             Color min_delta_clr = Color.Transparent;
-            for (int i = 0; i < workspace_ob.keys.Count; i++) 
+            for (int i = 0; i < workspace_ob.keys.Count; i++)
             {
                 delta = Math.Sqrt((clr.R - workspace_ob.keys[i].clr.R) * (clr.R - workspace_ob.keys[i].clr.R)
                     + (clr.G - workspace_ob.keys[i].clr.G) * (clr.G - workspace_ob.keys[i].clr.G)
                     + (clr.B - workspace_ob.keys[i].clr.B) * (clr.B - workspace_ob.keys[i].clr.B));
 
-                if (delta < min_delta) 
-                { 
+                if (delta < min_delta)
+                {
                     min_delta = delta;
                     min_delta_clr = workspace_ob.keys[i].clr;
                 }
-            } 
+            }
             return min_delta_clr;
         }
         public void Minimize_All_Image_Colors()
@@ -709,7 +710,7 @@ namespace test
             {
                 this.Enabled = true;
             }
-            
+
         }
         private void Form1_DragDrop(object sender, DragEventArgs e)
         {
@@ -766,7 +767,7 @@ namespace test
             {
                 textBox_info.Text = "File is incorrect.";
                 return;
-            }         
+            }
         }
 
         private void optionsToolStripMenuItem1_Click(object sender, EventArgs e)
@@ -814,7 +815,7 @@ namespace test
         }
         private void openFile(bool dragAndDrop, int slIndex = 0, string path_in = "")
         {
-            
+
             this.Enabled = false;
             ProgressBar1 prgBar = new ProgressBar1();
             string path = path_in;
@@ -823,7 +824,7 @@ namespace test
             {
                 openFileDialog1.Filter = "Image Files(*.png; *.jpeg; *.gif; *bmp; *.jpg; *.ico; *.pcx; *.ppm; *.tiff; *.tif; *pbm; *.dcx; *.wmf)| *.png; *.jpeg; *.gif; *bmp; *.jpg; *.ico; *.pcx; *.ppm; *.tiff; *.tif; *pbm; *.dcx; *.wmf|Configuration Files(*.cnf)| *.cnf|All Files| *.*";
                 openFileDialog1.DefaultExt = "";
-                
+
                 if(Directory.Exists(Application.StartupPath.ToString() + "\\samples\\")){
                     openFileDialog1.InitialDirectory = Application.StartupPath.ToString() + "\\samples\\";
                 }
@@ -840,7 +841,7 @@ namespace test
                     return;
                 }
             }
-            
+
             #region open_image
             if (selected == 1)
             {
@@ -878,7 +879,7 @@ namespace test
                             if (ifColorExist == false) workspace_ob.keys.Add(new Workspace.key("", bmp.GetPixel(i, j)));
                         }
                     }
-                    
+
                     Minimize_All_Image_Colors();
                     for (int i = 0; i < workspace_ob.field_ex.width; i++)
                     {
@@ -888,10 +889,10 @@ namespace test
                             bool ifColorExist = false;
                             for (int z = 0; z < workspace_ob.keys.Count; z++)
                             {
-                                if (workspace_ob.keys[z].clr == workspace_ob.field_ex.clr_fild[i][j]) 
+                                if (workspace_ob.keys[z].clr == workspace_ob.field_ex.clr_fild[i][j])
                                     ifColorExist = true;
                             }
-                            if (ifColorExist == false) 
+                            if (ifColorExist == false)
                                 workspace_ob.keys.Add(new Workspace.key("", workspace_ob.field_ex.clr_fild[i][j]));
                         }
                     }
@@ -950,13 +951,13 @@ namespace test
                 }
                 GenerateNumbers();
             }
-            
-            #endregion  
+
+            #endregion
             Refresh();
             this.Enabled = true;
-            this.Activate(); 
+            this.Activate();
         }
-        
+
         private void SaveFile()
         {
             saveFileDialog1.Filter = "PNG Image Files(*.png)| *.png|BMP Image Files(*.bmp)| *.bmp|GIF Image Files(*.gif)| *.gif|PPM Image Files(*.ppm)| *.ppm|PCX Image Files(*.pcx)| *.pcx";
@@ -1113,7 +1114,7 @@ namespace test
         {
             ViewProperties vp = new ViewProperties(axPXV_Control1, true);
             vp.workspace_ob = workspace_ob;
-            
+
             vp.ShowDialog();
             workspace_ob = vp.workspace_ob;
 
@@ -1260,7 +1261,7 @@ namespace test
                 {
                     str += comboBox_plt.Text[i];
                 }
-                
+
             }
             comboBox_plt.Text = str;
         }
@@ -1337,6 +1338,7 @@ namespace test
         private void helpToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Help1 hlp = new Help1();
+            hlp.StartPosition = FormStartPosition.CenterParent;
             hlp.ShowDialog();
         }
 

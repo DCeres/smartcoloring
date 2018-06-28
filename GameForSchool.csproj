@@ -81,8 +81,10 @@
   <PropertyGroup>
     <RunPostBuildEvent>Always</RunPostBuildEvent>
   </PropertyGroup>
+  <PropertyGroup />
+  <PropertyGroup />
   <PropertyGroup>
-    <ApplicationManifest>SmartColoring.exe.manifest</ApplicationManifest>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -170,6 +172,7 @@
     <EmbeddedResource Include="TabOptions.resx">
       <DependentUpon>TabOptions.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="app.manifest" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -184,14 +187,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <COMReference Include="AxPDFXCviewAxLib">
-      <Guid>{2E19D395-7974-480B-9E28-CF1D7536983F}</Guid>
-      <VersionMajor>1</VersionMajor>
-      <VersionMinor>0</VersionMinor>
-      <Lcid>0</Lcid>
-      <WrapperTool>aximp</WrapperTool>
-      <Isolated>False</Isolated>
-    </COMReference>
     <COMReference Include="AxPDFXEdit">
       <Guid>{0AAFF38C-CB91-4424-A8B9-F8B504ACBE0C}</Guid>
       <VersionMajor>1</VersionMajor>
@@ -199,15 +194,6 @@
       <Lcid>0</Lcid>
       <WrapperTool>aximp</WrapperTool>
       <Isolated>False</Isolated>
-    </COMReference>
-    <COMReference Include="PDFXCviewAxLib">
-      <Guid>{2E19D395-7974-480B-9E28-CF1D7536983F}</Guid>
-      <VersionMajor>1</VersionMajor>
-      <VersionMinor>0</VersionMinor>
-      <Lcid>0</Lcid>
-      <WrapperTool>tlbimp</WrapperTool>
-      <Isolated>False</Isolated>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
     <COMReference Include="PDFXEdit">
       <Guid>{0AAFF38C-CB91-4424-A8B9-F8B504ACBE0C}</Guid>
